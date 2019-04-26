@@ -1,19 +1,27 @@
 {
   "name": "phaser-plugin-pasuuna",
-  "version": "0.5.0",
+  "version": "0.5.2",
   "description": "phaser-plugin-pasuuna",
-  "main": "index.js",
+  "main": "dist/pasuunaplugin.js",
   "scripts": {
     "build": "webpack --env=prod",
-    "build:dev": "webpack --env=dev --progress --profile --colors"
+    "build:dev": "webpack --env=dev --progress --profile --colors",
+    "prepare": "npm run build"
   },
+  "files": [],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pinkkis/phaser-plugin-pasuuna.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "phaser",
+    "mod player"
+  ],
+  "author": {
+    "name": "Kristian Koivisto-Kokko",
+    "url": "https://pinkkis.com"
+  },
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/pinkkis/phaser-plugin-pasuuna/issues"
   },
@@ -26,7 +34,7 @@
     "webpack-cli": "^3.3.1"
   },
   "dependencies": {
-    "@pinkkis/pasuuna-player": "^0.5.0"
+    "@pinkkis/pasuuna-player": "^0.5.2"
   },
   "peerDependencies": {
     "phaser": "^3.16.2"

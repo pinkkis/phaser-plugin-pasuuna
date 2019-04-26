@@ -1,9 +1,6 @@
-import {EVENT as PasuunaEvents, Tracker} from '@pinkkis/pasuuna-player';
-
-export { PasuunaEvents };
+import {EVENT, Tracker} from '@pinkkis/pasuuna-player';
 
 export class PasuunaPlugin extends Phaser.Plugins.BasePlugin {
-
 	/**
 	 * Creates an instance of PasuunaPlugin.
 	 * @param {Phaser.Plugins.PluginManager} pluginManager - Phaser global plugin manager
@@ -13,18 +10,10 @@ export class PasuunaPlugin extends Phaser.Plugins.BasePlugin {
 		super(pluginManager);
 
 		this.tracker = new Tracker(this.game.sound.context);
+		this.events = this.tracker.events;
+		this.eventTypes = EVENT;
+		this.song = null;
 		this.tracker.init();
-		this.setupEvents();
-	}
-
-	setupEvents() {
-		for (const key in PasuunaEvents) {
-			if (PasuunaEvents.hasOwnProperty(key)) {
-				this.tracker.events.on(PasuunaEvents[key], (data) => {
-					console.log(`Pasuuna:${key}`, data);
-				});
-			}
-		}
 	}
 
 	/**
@@ -39,21 +28,24 @@ export class PasuunaPlugin extends Phaser.Plugins.BasePlugin {
 			return false;
 		}
 
-		if (autoPlay) {
-			this.tracker.events.once(PasuunaEvents.songLoaded, () => this.tracker.playSong());
-		}
+		this.tracker.events.once(this.eventTypes.songLoaded, (song) => {
+			this.song = song;
+
+			if (autoPlay) {
+				this.tracker.playSong();
+			}
+		});
 
 		this.tracker.processFile(this.game.cache.binary.get(key));
 		return true;
 	}
 
 	/**
-	 * Play song, optionally from a given position
+	 * Play current loaded song, from currentPatternPosition, if set
 	 *
-	 * @param {number} songPosition - start playback from this position *NYI*
 	 * @memberof PasuunaPlugin
 	 */
-	play(songPosition = this.tracker.getCurrentSongPosition()) {
+	play() {
 		this.stop();
 		this.tracker.playSong();
 	}
@@ -61,17 +53,13 @@ export class PasuunaPlugin extends Phaser.Plugins.BasePlugin {
 	/**
 	 * Stop playback
 	 *
-	 * @returns {number} The position where playback was stopped so you can continue from here
+	 * @param {boolean} [resetVolume=false] - reset volume to 1
 	 * @memberof PasuunaPlugin
 	 */
-	stop() {
+	stop(resetVolume = false) {
 		if (this.tracker.isPlaying) {
-			const currentPosition = this.tracker.getCurrentSongPosition();
-			this.tracker.stop();
-			return currentPosition;
+			this.tracker.stop(resetVolume);
 		}
-
-		return 0;
 	}
 
 	/**
@@ -83,5 +71,25 @@ export class PasuunaPlugin extends Phaser.Plugins.BasePlugin {
 	 */
 	setVolume(volume = 0.95) {
 		this.tracker.audio.setMasterVolume( Phaser.Math.Clamp(volume, 0, 1) );
+	}
+
+	/**
+	 * Get current play status of pasuuna
+	 *
+	 * @returns {boolean} whether the tracker is playing
+	 * @memberof PasuunaPlugin
+	 */
+	get isPlaying() {
+		return this.tracker.isPlaying;
+	}
+
+	/**
+	 * Set current pattern index to play
+	 *
+	 * @param {number} index - Pattern index >= 0
+	 * @memberof PasuunaPlugin
+	 */
+	setCurrentPattern(index) {
+		this.tracker.setCurrentPattern(index);
 	}
 }
