@@ -1,5 +1,5 @@
 {
-  "name": "phaser-plugin-pasuuna",
+  "name": "@pinkkis/phaser-plugin-pasuuna",
   "version": "0.5.2",
   "description": "phaser-plugin-pasuuna",
   "main": "dist/pasuunaplugin.js",
