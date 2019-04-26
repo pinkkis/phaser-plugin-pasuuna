@@ -6,6 +6,8 @@ MIT Licensed, see LICENSE.md for details. See Pasuuna Player repo for detail on 
 
 ## Usage
 
+The plugin is a UMD module, exposed as Pasuuna.PasuunaPlugin on the window object. You can also import it in webpack or something instead.
+
 See the example in the `/docs` folder for a quick example on how to use it.
 
 * `#loadSongFromCache(key, autoplay)` - this takes a key string that is a Phaser cache key. Load mods as a binary in phaser's preloader, and pass the key to pasuuna. Start playback immediately if autoplay is true. Otherwise listen to the `songLoaded` event before calling `#play()`

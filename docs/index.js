@@ -31,7 +31,6 @@ function preload() {
 	const progress = this.add.graphics();
 
 	this.load.on("progress", value => {
-		console.log('progress', value);
 		progress.clear();
 		progress.fillStyle(0xffffff, 1);
 		progress.fillRect(
