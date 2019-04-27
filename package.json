@@ -3,12 +3,16 @@
   "version": "0.5.2",
   "description": "phaser-plugin-pasuuna",
   "main": "dist/pasuunaplugin.js",
+  "types": "dist/pasuunaplugin.d.ts",
   "scripts": {
+    "copy-d-ts": "node ./tasks/copy-d-ts.js",
     "build": "webpack --env=prod",
     "build:dev": "webpack --env=dev --progress --profile --colors",
-    "prepare": "npm run build"
+    "prepare": "npm run build && npm run copy-d-ts"
   },
-  "files": [],
+  "files": [
+    "dist/pasuunaplugin.d.ts"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pinkkis/phaser-plugin-pasuuna.git"
@@ -27,14 +31,12 @@
   },
   "homepage": "https://github.com/pinkkis/phaser-plugin-pasuuna#readme",
   "devDependencies": {
+    "@pinkkis/pasuuna-player": "^0.5.2",
     "clean-webpack-plugin": "^2.0.1",
     "cross-env": "^5.2.0",
     "terser-webpack-plugin": "^1.2.3",
     "webpack": "^4.30.0",
     "webpack-cli": "^3.3.1"
-  },
-  "dependencies": {
-    "@pinkkis/pasuuna-player": "^0.5.2"
   },
   "peerDependencies": {
     "phaser": "^3.16.2"
